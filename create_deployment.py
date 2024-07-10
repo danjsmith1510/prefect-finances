@@ -7,5 +7,5 @@ if __name__ == "__main__":
     ).deploy(
         name="finance_workflow",
         work_pool_name="my-managed-pool",
-        cron="0 1 * * *",
+        cron="0 8-22 * * *",
     )

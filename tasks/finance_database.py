@@ -1,5 +1,5 @@
 import json
-from prefect import flow, task
+from prefect import task
 from datetime import datetime
 from prefect_gcp.bigquery import GcpCredentials, BigQueryWarehouse
 
