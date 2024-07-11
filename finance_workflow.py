@@ -24,9 +24,9 @@ def finance_workflow():
     print(f"Got {len(transactions)} transactions")
     load_extract_table('transaction', json.dumps(transactions))
 
-    # tasks = get_jira_stories()
-    # print(f"Got {len(tasks)} tasks")
-    # load_extract_table('task', json.dumps(tasks))
+    tasks = get_jira_stories()
+    print(f"Got {len(tasks)} tasks")
+    load_extract_table('task', json.dumps(tasks))
 
     run_merge = run_merge_extracts(start_date, end_date)
     print (run_merge)
