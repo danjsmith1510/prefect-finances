@@ -1,5 +1,4 @@
-from prefect import flow, task
-import datetime as dt
+from prefect import task
 import requests
 
 jira_headers = {

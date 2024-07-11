@@ -1,7 +1,5 @@
-from prefect import flow, task
-import datetime as dt
+from prefect import task
 import requests
-from prefect_gcp import GcpCredentials
 
 pocketsmith_headers = {
     "accept": "application/json",
