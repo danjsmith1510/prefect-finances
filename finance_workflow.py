@@ -12,12 +12,12 @@ start_date_raw = dt.datetime.today().astimezone(tz) - dt.timedelta(days=7)
 start_date = start_date_raw.strftime('%Y-%m-%d')
 end_date = dt.datetime.today().astimezone(tz).strftime('%Y-%m-%d')
 
-print(f"Start Date: {start_date}")
-print(f"End Date: {end_date}")
-print(f"Load timestamp: {timestamp}")
-
 @flow(log_prints=True)
 def finance_workflow():
+
+    print(f"Start Date: {start_date}")
+    print(f"End Date: {end_date}")
+    print(f"Load timestamp: {timestamp}")
 
     accounts = get_pocketsmith_accounts()
     print(f"Got {len(accounts)} accounts")
