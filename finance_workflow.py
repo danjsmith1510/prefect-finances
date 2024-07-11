@@ -1,5 +1,5 @@
 import json
-from prefect import flow, task
+from prefect import flow
 import datetime as dt
 from tasks.finance_database import load_extract_table, run_merge_extracts
 from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions
@@ -24,9 +24,9 @@ def finance_workflow():
     print(f"Got {len(transactions)} transactions")
     load_extract_table('transaction', json.dumps(transactions))
 
-    # tasks = get_jira_stories()
-    # print(f"Got {len(tasks)} tasks")
-    # load_extract_table('task', tasks)
+    tasks = get_jira_stories()
+    print(f"Got {len(tasks)} tasks")
+    load_extract_table('task', json.dumps(tasks))
 
     run_merge = run_merge_extracts(start_date, end_date)
     print (run_merge)

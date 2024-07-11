@@ -15,17 +15,21 @@ def get_jira_stories():
     response = requests.get(jira_url_stories, headers=jira_headers)
     stories = response.json()
     for element in stories['issues']:
-        task = {
-            'ID': int(element['id']), 
-            'Project': element['fields']['parent']['fields']['summary'],
-            'TrackProgress': 1,
-            'Description': element['fields']['summary'],
-            'Priority': 0,
-            'Effort': 0,
-            'Estimate': element['fields']['customfield_10060'],
-            'Percent Complete': element['fields']['customfield_10061'],
-            'Expected': element['fields']['customfield_10062'],
-            'RemainingEstimate': element['fields']['customfield_10063']
-        }  
-        tasks.append(task)
+        estimated_cost = element['fields']['customfield_10060']
+        if estimated_cost is not None:
+            task = {
+                'ID': int(element['id']), 
+                'Project': element['fields']['parent']['fields']['summary'],
+                'TrackProgress': 1,
+                'Description': element['fields']['summary'],
+                'Priority': 0,
+                'Effort': 0,
+                'Estimate': element['fields']['customfield_10060'],
+                'PercentComplete': element['fields']['customfield_10061'],
+                'Expected': element['fields']['customfield_10062'],
+                'RemainingEstimate': element['fields']['customfield_10063']
+            }  
+            tasks.append(task)
     return tasks
+
+get_jira_stories()
