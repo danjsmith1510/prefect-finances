@@ -31,5 +31,3 @@ def get_jira_stories():
             }  
             tasks.append(task)
     return tasks
-
-get_jira_stories()
