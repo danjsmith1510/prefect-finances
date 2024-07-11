@@ -6,6 +6,6 @@ if __name__ == "__main__":
         entrypoint="finance_workflow.py:finance_workflow",
     ).deploy(
         name="finance_workflow",
-        work_pool_name="my-managed-pool",
+        work_pool_name="finances-managed-pool",
         cron="0 8-22 * * *",
     )
