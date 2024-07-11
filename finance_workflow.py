@@ -12,8 +12,6 @@ end_date = dt.datetime.today().strftime('%Y-%m-%d')
 @flow(log_prints=True)
 def finance_workflow():
 
-    print ('TEST RUN')
-
     accounts = get_pocketsmith_accounts()
     print(f"Got {len(accounts)} accounts")
     load_extract_table('accounts', json.dumps(accounts))

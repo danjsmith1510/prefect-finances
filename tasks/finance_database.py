@@ -10,6 +10,7 @@ def load_extract_table(extract_type: str, extract_data: str):
     """Load API data to extracts table"""
     # gcp_credentials = GcpCredentials.load("gcp-credentials-home-dashboard")
     timestamp = datetime.now().isoformat()
+    print(timestamp)
     with BigQueryWarehouse(gcp_credentials=gcp_credentials) as warehouse:
         response = warehouse.execute(
             """
