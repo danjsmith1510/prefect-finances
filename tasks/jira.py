@@ -16,21 +16,22 @@ def get_jira_stories():
     stories = response.json()
     for element in stories['issues']:
         estimated_cost = element['fields']['customfield_10060']
-        parent_epic = element['fields']['parent']['fields']['summary']
-        if estimated_cost is not None and parent_epic is not None:
-            task = {
-                'ID': int(element['id']), 
-                'Project': parent_epic,
-                'TrackProgress': 1,
-                'Description': element['fields']['summary'],
-                'Priority': 0,
-                'Effort': 0,
-                'Estimate': element['fields']['customfield_10060'],
-                'PercentComplete': element['fields']['customfield_10061'],
-                'Expected': element['fields']['customfield_10062'],
-                'RemainingEstimate': element['fields']['customfield_10063']
-            }  
-            tasks.append(task)
+        if 'parent' in element['fields']:
+            parent_epic = element['fields']['parent']['fields']['summary']
+            if estimated_cost is not None:
+                task = {
+                    'ID': int(element['id']), 
+                    'Project': parent_epic,
+                    'TrackProgress': 1,
+                    'Description': element['fields']['summary'],
+                    'Priority': 0,
+                    'Effort': 0,
+                    'Estimate': element['fields']['customfield_10060'],
+                    'PercentComplete': element['fields']['customfield_10061'],
+                    'Expected': element['fields']['customfield_10062'],
+                    'RemainingEstimate': element['fields']['customfield_10063']
+                }  
+                tasks.append(task)
     return tasks
 
 @task(retries=2)
