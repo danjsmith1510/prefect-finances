@@ -9,6 +9,7 @@ pocketsmith_url_categories = 'https://api.pocketsmith.com/v2/users/401501/catego
 pocketsmith_url_accounts = "https://api.pocketsmith.com/v2/users/401501/accounts"
 pocketsmith_url_credit_card_transactions = 'https://api.pocketsmith.com/v2/accounts/2307979/transactions'
 pocketsmith_url_offset_transactions = 'https://api.pocketsmith.com/v2/accounts/2307976/transactions'
+pocketsmith_url_post_category = 'https://api.pocketsmith.com/v2/users/401501/categories'
 pocketsmith_credit_card_transactions_pages_to_fetch = 10
 
 @task(retries=2)
@@ -44,3 +45,10 @@ def get_pocketsmith_transactions(start_date, end_date):
     )
     transactions.extend(response.json())
     return transactions
+
+@task(retries=2)
+def post_pocketsmith_category(new_pocketsmith_category):
+    """Create new pocketsmith category"""
+    response = requests.post(pocketsmith_url_post_category, json = new_pocketsmith_category, headers=pocketsmith_headers)
+    print (response)
+    return True

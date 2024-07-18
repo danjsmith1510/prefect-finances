@@ -2,9 +2,10 @@ import json
 from prefect import flow
 import datetime as dt
 import pytz
+from tasks.helpers import get_missing_pocketsmith_categories
 from tasks.finance_database import load_finances_extract_table, run_merge_extracts
-from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions
-from tasks.jira import get_jira_stories
+from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions, post_pocketsmith_category
+from tasks.jira import get_jira_epics, get_jira_stories
 
 tz = pytz.timezone('Australia/Sydney')
 timestamp = dt.datetime.now(tz).isoformat()
@@ -18,6 +19,17 @@ def finance_workflow():
     print(f"Start Date: {start_date}")
     print(f"End Date: {end_date}")
     print(f"Load timestamp: {timestamp}")
+
+    jira_categories = get_jira_epics()
+    pocketsmith_categories = get_pocketsmith_categories()
+    missing_pocketsmith_categories = get_missing_pocketsmith_categories(jira_categories, pocketsmith_categories)
+    if len(missing_pocketsmith_categories) > 0:
+        print(f"Need to add {len(missing_pocketsmith_categories)} categories to PocketSmith")
+        for missing_pocketsmith_category in missing_pocketsmith_categories:
+            print(f"Adding {missing_pocketsmith_category['title']} category to PocketSmith")
+            post_pocketsmith_category(missing_pocketsmith_category)
+    else:
+        print(f"All JIRA epics have a corresponding category")
 
     accounts = get_pocketsmith_accounts()
     print(f"Got {len(accounts)} accounts")
