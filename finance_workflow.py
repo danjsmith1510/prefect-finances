@@ -3,7 +3,7 @@ from prefect import flow
 import datetime as dt
 import pytz
 from tasks.helpers import get_missing_pocketsmith_categories
-from tasks.finance_database import load_finances_extract_table, run_merge_extracts
+from bigquery import load_finances_extract_table, run_finance_merge_extracts
 from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions, post_pocketsmith_category
 from tasks.jira import get_jira_epics, get_jira_stories
 
@@ -47,7 +47,7 @@ def finance_workflow():
     print(f"Got {len(tasks)} tasks")
     load_finances_extract_table('task', json.dumps(tasks), timestamp)
 
-    run_merge = run_merge_extracts(start_date, end_date)
+    run_merge = run_finance_merge_extracts(start_date, end_date)
     print (run_merge)
 
 if __name__ == "__main__":
