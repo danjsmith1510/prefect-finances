@@ -3,7 +3,7 @@ from prefect import flow
 import datetime as dt
 import pytz
 from tasks.helpers import get_missing_pocketsmith_categories
-from bigquery import load_finances_extract_table, run_finance_merge_extracts
+from tasks.bigquery import load_finances_extract_table, run_finance_merge_extracts
 from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions, post_pocketsmith_category
 from tasks.jira import get_jira_epics, get_jira_stories
 
