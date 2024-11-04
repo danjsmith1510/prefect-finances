@@ -1,5 +1,6 @@
 from prefect import task
 import requests
+import time
 
 jira_headers = {
     "accept": "application/json",
@@ -8,12 +9,8 @@ jira_headers = {
 jira_url_stories = 'https://ernie2022.atlassian.net/rest/api/2/search?jql=type=Story&maxResults=100'
 jira_url_epics = 'https://ernie2022.atlassian.net/rest/api/2/search?jql=type=Epic&maxResults=100'
 
-@task(retries=2)
-def get_jira_stories():
-    """Get stories from JIRA and format as tasks"""
+def processJiraStories(stories):
     tasks = []
-    response = requests.get(jira_url_stories, headers=jira_headers)
-    stories = response.json()
     for element in stories['issues']:
         estimated_cost = element['fields']['customfield_10060']
         if 'parent' in element['fields']:
@@ -31,8 +28,23 @@ def get_jira_stories():
                     'Expected': element['fields']['customfield_10062'],
                     'RemainingEstimate': element['fields']['customfield_10063']
                 }  
-                tasks.append(task)
+            tasks.append(task)
     return tasks
+
+@task(retries=2)
+def get_jira_stories():
+    """Get stories from JIRA and format as tasks"""
+    alltasks = []
+    response = requests.get(jira_url_stories, headers=jira_headers)
+    time.sleep(2)
+    storyCount = response.json()['total']
+    startAtCounter = 0
+    while (startAtCounter < storyCount):
+        response = requests.get(jira_url_stories + '&startAt=' + str(startAtCounter), headers=jira_headers)
+        alltasks.extend(processJiraStories(response.json()))
+        startAtCounter = startAtCounter + 100
+        time.sleep(2)
+    return alltasks
 
 @task(retries=2)
 def get_jira_epics():

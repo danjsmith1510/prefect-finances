@@ -8,7 +8,7 @@ async-timeout==4.0.3
 asyncpg==0.29.0
 attrs==23.2.0
 cachetools==5.3.3
-certifi==2024.7.4
+certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
@@ -63,6 +63,8 @@ Markdown==3.6
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
+nba_api==1.5.0
+numpy==1.26.4
 oauthlib==3.2.2
 orjson==3.10.6
 packaging==24.1

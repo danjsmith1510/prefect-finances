@@ -1,20 +1,18 @@
-import json
 from prefect import flow
-import datetime as dt
-import pytz
-from tasks.helpers import get_missing_pocketsmith_categories
-from tasks.bigquery import load_finances_extract_table, run_finance_merge_extracts
-from tasks.pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions, post_pocketsmith_category
-from tasks.jira import get_jira_epics, get_jira_stories
+import json, pytz, datetime as dt
+from helpers import get_missing_pocketsmith_categories
+from bigquery import load_finances_extract_table, run_finance_merge_extracts
+from pocketsmith import get_pocketsmith_accounts, get_pocketsmith_categories, get_pocketsmith_transactions, post_pocketsmith_category
+from jira import get_jira_epics, get_jira_stories
 
 tz = pytz.timezone('Australia/Sydney')
 timestamp = dt.datetime.now(tz).isoformat()
-start_date_raw = dt.datetime.today().astimezone(tz) - dt.timedelta(days=7)
+start_date_raw = dt.datetime.today().astimezone(tz) - dt.timedelta(days=10)
 start_date = start_date_raw.strftime('%Y-%m-%d')
 end_date = dt.datetime.today().astimezone(tz).strftime('%Y-%m-%d')
 
 @flow(log_prints=True)
-def finance_workflow():
+def finance_flow():
 
     print(f"Start Date: {start_date}")
     print(f"End Date: {end_date}")
@@ -51,4 +49,4 @@ def finance_workflow():
     print (run_merge)
 
 if __name__ == "__main__":
-    finance_workflow()
+    finance_flow()

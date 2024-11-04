@@ -17,3 +17,6 @@ service_account_info = {
 GcpCredentials(
     service_account_info=service_account_info
 ).save("gcp-credentials-home-dashboard")
+
+# docker build -t australia-southeast1-docker.pkg.dev/home-dashboard-396803/danieljsmith1510-repository/prefectimage:prefect2python3.10 .
+# docker push australia-southeast1-docker.pkg.dev/home-dashboard-396803/danieljsmith1510-repository/prefectimage:prefect2python3.10
