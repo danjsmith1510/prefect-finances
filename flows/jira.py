@@ -28,7 +28,7 @@ def processJiraStories(stories):
                     'Expected': element['fields']['customfield_10062'],
                     'RemainingEstimate': element['fields']['customfield_10063']
                 }  
-            tasks.append(task)
+                tasks.append(task)
     return tasks
 
 @task(retries=2)
